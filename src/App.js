@@ -13,14 +13,15 @@ import MyLoader from './components/UI/loader/MyLoader';
 
 function App() {
   const [posts, setPosts] = React.useState([]);
-  const [filter, setFilter] = useState({sorting: '', query: ''});
+  const [filter, setFilter] = useState({ sorting: '', query: '' });
   const [checkModal, setCheckModal] = React.useState(false);
-    //свой hook/usePosts.js 
+  //свой hook/usePosts.js 
   const sortedAndSearchPosts = usePosts(posts, filter.sort, filter.query);
   const [isPostsLoading, setIsPostsLoading] = React.useState(false);
 
   async function fetchPosts() {
     setIsPostsLoading(true)
+
     const posts = await PostService.getAll();
     setPosts(posts);
     setIsPostsLoading(false)
@@ -28,7 +29,7 @@ function App() {
 
   React.useEffect(() => {
     fetchPosts();
-  },[]);
+  }, []);
 
   const creactPost = (newPost) => {
     setPosts([...posts, newPost]);
@@ -38,10 +39,10 @@ function App() {
   const removePost = (post) => {
     setPosts(posts.filter(p => p.id !== post.id));
   };
-  
+
   const checkModalWindow = (modal) => {
-    if(modal){
-      return  false
+    if (modal) {
+      return false
     };
     return true
   };
@@ -52,21 +53,21 @@ function App() {
         checkModal={checkModal}
         setCheckModal={() => setCheckModal(checkModalWindow(checkModal))}
       >
-        <PostForm create={creactPost}/> 
+        <PostForm create={creactPost} />
       </MyModal>
-      
-      <hr style={{margin: '20px 0'}}/>
+
+      <hr style={{ margin: '20px 0' }} />
       <PostFilter
         filter={filter}
         setFilter={setFilter}
       />
-      <MyButton onClick={() => {setCheckModal(true)}}>Add post</MyButton>
-      {isPostsLoading ? <div style={{display: 'flex', justifyContent: 'center'}}><MyLoader/></div>  : sortedAndSearchPosts.length  
-      ? 
-      <PostList remove={removePost} posts={sortedAndSearchPosts} title='List of Post' />  
-      : 
-      <CheckPost/>}
-      
+      <MyButton onClick={() => { setCheckModal(true) }}>Add post</MyButton>
+      {isPostsLoading ? <div style={{ display: 'flex', justifyContent: 'center' }}><MyLoader /></div> : sortedAndSearchPosts.length
+        ?
+        <PostList remove={removePost} posts={sortedAndSearchPosts} title='List of Post' />
+        :
+        <CheckPost />}
+
     </div>
   );
 }
@@ -74,3 +75,4 @@ function App() {
 export default App;
 
 
+//1:49:24
